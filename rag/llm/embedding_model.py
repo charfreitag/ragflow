@@ -536,11 +536,18 @@ class BedrockEmbed(Base):
                 body = {"inputText": text}
             elif self.is_cohere:
                 body = {"texts": [text], "input_type": "search_document"}
+            else:
+                body = {"texts": [text], "input_type": "search_document"}
 
             response = self.client.invoke_model(modelId=self.model_name, body=json.dumps(body))
             try:
                 model_response = json.loads(response["body"].read())
-                embeddings.extend([model_response["embedding"]])
+                if "embedding" in model_response:
+                    embeddings.extend([model_response["embedding"]])
+                elif "embeddings" in model_response:
+                    embeddings.extend([model_response["embeddings"][0]])
+                else:
+                    raise KeyError("embedding/embeddings not found in Bedrock response")
                 token_count += num_tokens_from_string(text)
             except Exception as _e:
                 log_exception(_e, response)
@@ -554,11 +561,19 @@ class BedrockEmbed(Base):
             body = {"inputText": truncate(text, 8196)}
         elif self.is_cohere:
             body = {"texts": [truncate(text, 8196)], "input_type": "search_query"}
+        else:
+            # fallback pro aliasy typu COHERE_EMBED_MULTILINGUAL_V3
+            body = {"texts": [truncate(text, 8196)], "input_type": "search_query"}
 
         response = self.client.invoke_model(modelId=self.model_name, body=json.dumps(body))
         try:
             model_response = json.loads(response["body"].read())
-            embeddings.extend(model_response["embedding"])
+            if "embedding" in model_response:
+                embeddings.extend(model_response["embedding"])
+            elif "embeddings" in model_response:
+                embeddings.extend(model_response["embeddings"][0])
+            else:
+                raise KeyError("embedding/embeddings not found in Bedrock response")
         except Exception as _e:
             log_exception(_e, response)
 
