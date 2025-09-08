@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next';
 
 import { LanguageAbbreviation } from '@/constants/common';
 import translation_de from './de';
+import translation_cs from './cs';
 import translation_en from './en';
 import translation_es from './es';
 import translation_fr from './fr';
@@ -28,6 +29,7 @@ const resources = {
   [LanguageAbbreviation.PtBr]: translation_pt_br,
   [LanguageAbbreviation.De]: translation_de,
   [LanguageAbbreviation.Fr]: translation_fr,
+  [LanguageAbbreviation.Cs]: translation_cs,
 };
 const enFlattened = flattenObject(translation_en);
 const viFlattened = flattenObject(translation_vi);
@@ -38,6 +40,7 @@ const jaFlattened = flattenObject(translation_ja);
 const pt_brFlattened = flattenObject(translation_pt_br);
 const zh_traditionalFlattened = flattenObject(translation_zh_traditional);
 const deFlattened = flattenObject(translation_de);
+const csFlattened = flattenObject(translation_cs);
 const frFlattened = flattenObject(translation_fr);
 export const translationTable = createTranslationTable(
   [
@@ -50,6 +53,7 @@ export const translationTable = createTranslationTable(
     jaFlattened,
     pt_brFlattened,
     deFlattened,
+    csFlattened,
     frFlattened,
   ],
   [
@@ -63,6 +67,7 @@ export const translationTable = createTranslationTable(
     'pt-BR',
     'Deutsch',
     'French',
+    'Czech',
   ],
 );
 i18n
