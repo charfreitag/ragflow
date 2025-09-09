@@ -66,8 +66,8 @@ export const translationTable = createTranslationTable(
     'ja',
     'pt-BR',
     'Deutsch',
-    'French',
     'Czech',
+    'French',
   ],
 );
 i18n
